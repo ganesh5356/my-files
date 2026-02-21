@@ -1,0 +1,1 @@
+samenumbers.o: samenumbers.asm

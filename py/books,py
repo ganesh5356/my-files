@@ -1,0 +1,20 @@
+class book:
+    def __init__(self,title,author):
+        self.title=title
+        self.author=author
+        
+class library:
+    def __init__(self):
+        self.book=[]
+    def add_book(self,book):
+        self.book.append(book)
+    def show_books(self):
+        for book in self.book:
+            print(f"{book.title} by {book.author}")
+            
+lib=library()
+book1=book("puspa","sukumar")
+book2=book("rich dad poor dad","robert kiyosaki")
+lib.add_book(book1)
+lib.add_book(book2)
+lib.show_books()

@@ -1,0 +1,355 @@
+<?php
+session_start();
+$con = mysqli_connect('localhost', 'root', '', 'logindbs');
+if (!$con) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Determine which page to show
+$page = isset($_GET['page']) ? $_GET['page'] : 'login';
+
+// Handle logout BEFORE any output
+if ($page == 'logout') {
+    session_unset();
+    session_destroy();
+    header("Location: ?page=login");
+    exit;
+}
+
+// Handle signup
+if (isset($_POST['signup'])) {
+    $Name = trim($_POST['name']);
+    $Age = trim($_POST['age']);
+    $Mobile_no = trim($_POST['mobile']);
+    $RawPassword = $_POST['password'];
+
+    if (!preg_match('/^[0-9]{10}$/', $Mobile_no)) {
+        $signup_error = "Invalid mobile number. Must be 10 digits.";
+    } elseif (!is_numeric($Age) || $Age < 1 || $Age > 120) {
+        $signup_error = "Invalid age.";
+    } else {
+        $stmt = $con->prepare("SELECT * FROM Signin WHERE Mobile_no = ?");
+        $stmt->bind_param("s", $Mobile_no);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $signup_error = "Mobile number already exists.";
+        } else {
+            $Password = password_hash($RawPassword, PASSWORD_BCRYPT);
+            $stmt = $con->prepare("INSERT INTO Signin (Name, Age, Mobile_no, Password) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("siss", $Name, $Age, $Mobile_no, $Password);
+
+            if ($stmt->execute()) {
+                $_SESSION['signup_success'] = "Signup successful! Please login.";
+                header("Location: ?page=login");
+                exit;
+            } else {
+                error_log("Signup Error: " . $stmt->error);
+                $signup_error = "Something went wrong. Please try again.";
+            }
+        }
+    }
+}
+
+// Handle login
+if (isset($_POST['login'])) {
+    $Mobile = trim($_POST['login_mobile']);
+    $Password = $_POST['login_password'];
+
+    $stmt = $con->prepare("SELECT * FROM Signin WHERE Mobile_no = ?");
+    $stmt->bind_param("s", $Mobile);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        if (password_verify($Password, $row['Password'])) {
+            $_SESSION['user'] = $row['Name'];
+            $_SESSION['login_success'] = true;
+            echo '<div class="main-center">
+                    <h1 class="main-heading">Welcome</h1>
+                    <div class="container">
+                        <h2>Login Success</h2>
+                        <p>Redirecting to your dashboard...</p>
+                        <form method="get" action="">
+                            <input type="hidden" name="page" value="logout">
+                            <input type="submit" class="logout-btn" value="Logout">
+                        </form>
+                    </div>
+                  </div>';
+            echo '<meta http-equiv="refresh" content="5;url=?page=about">';
+            exit;
+        } else {
+            $login_error = "Invalid credentials.";
+        }
+    } else {
+        $login_error = "User not found.";
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Portal</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .main-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+        .main-heading {
+            margin-bottom: 20px;
+            font-size: 3rem;
+            color: #4a6fa5;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-shadow: 1px 2px 12px #fff8;
+        }
+        .container {
+            background: rgba(255,255,255,0.95);
+            padding: 35px 40px 30px 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            width: 95%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h2 {
+            color: #ff6b6b;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #4a6fa5;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b2bec3;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f1f8ff;
+        }
+        input[type="submit"] {
+            background: linear-gradient(90deg, #4a6fa5 0%, #6ed6ff 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: background 0.25s;
+        }
+        input[type="submit"]:hover {
+            background: linear-gradient(90deg, #6ed6ff 0%, #4a6fa5 100%);
+        }
+        .error { color: #ff5252; text-align: center; font-weight: 500;}
+        .success { color: #28a745; text-align: center; font-weight: 500;}
+        .link { text-align: center; margin-top: 18px; }
+        a {
+            color: #4a6fa5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover { text-decoration: underline; }
+        .essay {
+            margin: 18px 0;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            color: #444;
+        }
+        .info-box {
+            background: #e0f7fa;
+            border-left: 6px solid #4a6fa5;
+            padding: 18px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .info-box pre {
+            background: #f1f8ff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 1rem;
+            overflow-x: auto;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 22px;
+            margin: 22px 0;
+        }
+        .image-container img {
+            max-width: 340px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: transform 0.2s;
+        }
+        .image-container img:hover {
+            transform: scale(1.04);
+        }
+        .logout-btn {
+            background: linear-gradient(90deg, #ff6b6b 0%, #ffb199 100%);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+            margin: 32px auto 0 auto;
+            width: 130px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: linear-gradient(90deg, #ffb199 0%, #ff6b6b 100%);
+        }
+        @media (max-width: 700px) {
+            .container { padding: 18px; max-width: 99%; }
+            .main-heading { font-size: 2rem; }
+            .image-container { flex-direction: column; align-items: center; }
+            .image-container img { max-width: 98vw; }
+        }
+    </style>
+    <script>
+        function validateSignup() {
+            const mobile = document.forms["signupForm"]["mobile"].value;
+            const age = document.forms["signupForm"]["age"].value;
+            if (!/^[0-9]{10}$/.test(mobile)) {
+                alert("Mobile number must be 10 digits.");
+                return false;
+            }
+            if (isNaN(age) || age < 1 || age > 120) {
+                alert("Enter a valid age between 1 and 120.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<div class="main-center">
+    <h1 class="main-heading">Welcome</h1>
+    <?php if ($page == 'login'): ?>
+        <div class="container">
+            <h2>Login</h2>
+            <?php if (isset($_SESSION['signup_success'])): ?>
+                <div class="success"><?php echo $_SESSION['signup_success']; unset($_SESSION['signup_success']); ?></div>
+            <?php endif; ?>
+            <?php if (isset($login_error)): ?>
+                <div class="error"><?php echo $login_error; ?></div>
+            <?php endif; ?>
+            <form method="post">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" name="login_mobile" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="login_password" required>
+                </div>
+                <input type="submit" name="login" value="Login">
+            </form>
+            <div class="link">
+                <a href="?page=signup">Don't have an account? Sign up</a>
+            </div>
+        </div>
+    <?php elseif ($page == 'signup'): ?>
+        <div class="container">
+            <h2>Signup</h2>
+            <?php if (isset($signup_error)): ?>
+                <div class="error"><?php echo $signup_error; ?></div>
+            <?php endif; ?>
+            <form name="signupForm" method="post" onsubmit="return validateSignup()">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="text" name="age" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" name="mobile" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <input type="submit" name="signup" value="Sign Up">
+            </form>
+            <div class="link">
+                <a href="?page=login">Already have an account? Login</a>
+            </div>
+        </div>
+    <?php elseif ($page == 'about' && isset($_SESSION['user'])): ?>
+        <div class="container">
+            <h2>Hello, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h2>
+            <div class="essay">
+                <h2>About This Website</h2>
+                <p>
+                    Welcome to our Student Portal, a platform designed to help students manage their academic journey. This website provides a simple and secure way to register, login, and access personalized information. Our goal is to create a supportive environment where students can focus on their studies and connect with peers.
+                </p>
+                <p>... The Student Portal is built using modern web technologies, including HTML, CSS, JavaScript, and PHP. The backend uses a MySQL database to securely store user information. When you register, your details are encrypted and saved in the database. When you login, the system verifies your credentials and grants access to your account.
+                </p>
+            </div>
+            <div class="info-box">
+                <h3>Database Connectivity</h3>
+                <p>
+                    This website connects to a MySQL database using PHP. The connection is established with the following code:
+                </p>
+                <pre><code>&lt;?php
+$con = mysqli_connect('localhost', 'root', '', 'logindbs');
+if (!$con) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+?&gt;</code></pre>
+                <p>
+                    This connection is used for all database operations, such as signup, login, and profile management. Your password is securely hashed before being stored, ensuring your data remains safe.
+                </p>
+            </div>
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" alt="Students studying">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90120c3f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" alt="Graduation">
+            </div>
+            <a href="?page=logout" class="logout-btn">Logout</a>
+        </div>
+    <?php else: ?>
+        <div class="container">
+            <h2>Unauthorized</h2>
+            <p>Please <a href="?page=login">login</a> to access the portal.</p>
+        </div>
+    <?php endif; ?>
+</div>
+</body>
+</html>

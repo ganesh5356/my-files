@@ -1,0 +1,55 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             add1, CODE, READONLY
+    2 00000000                 ENTRY
+    3 00000000         
+    4 00000000 E3A00005        MOV              r0, #5      ; Load 5 into regis
+                                                            ter r0
+    5 00000004 E3A01006        MOV              r1, #6      ; Load 6 into regis
+                                                            ter r1
+    6 00000008 E2400004        SUB              r0, r0, #4  ; Subtract 4 from r
+                                                            0 (5 - 4 = 1)
+    7 0000000C         
+    8 0000000C 00812000        ADDEQ            r2, r1, r0  ; If Zero flag (Z) 
+                                                            is set, add r1 and 
+                                                            r0, store result in
+                                                             r2
+    9 00000010 E3A0300A        MOV              r3, #10     ; Load 10 into regi
+                                                            ster r3
+   10 00000014         
+   11 00000014 EAFFFFFE 
+                       Back    B                Back        ; Infinite loop to 
+                                                            stop the program
+   12 00000018         
+   13 00000018                 END
+Command Line: --debug --xref --apcs=interwork --depend=oroperation.d -ooroperat
+ion.o -IC:\Keil\ARM\RV31\Inc -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\Inc\Phil
+ips --predefine="__EVAL SETA 1" --list=oroperation.lst oroperation.asm
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Back 00000014
+
+Symbol: Back
+   Definitions
+      At line 11 in file oroperation.asm
+   Uses
+      At line 11 in file oroperation.asm
+Comment: Back used once
+add1 00000000
+
+Symbol: add1
+   Definitions
+      At line 1 in file oroperation.asm
+   Uses
+      None
+Comment: add1 unused
+2 symbols
+333 symbols in table

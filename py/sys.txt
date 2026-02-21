@@ -1,0 +1,15 @@
+sys.argv:-list of cmd line argument passed to the script
+
+sys.exit([arg]):-it exits the pgm with an optional exit code
+
+sys.path:-a list of directories the python interpreter loops in for module
+
+sys.version:-returns the version of python being used
+
+sys.platform:-returns the name of the platform
+
+sys.stdout:-it represents standard output
+
+sys.stdin:- it  returns the standard input
+
+sys.err:=it returns the standard error output

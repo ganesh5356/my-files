@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>School Fee Collection System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>School Fee Collection System</h1>
+    <p>Track student registrations, payments, and dues easily</p>
+  </header>
+
+  <main class="container">
+
+    <form class="card" onsubmit="event.preventDefault(); registerStudent();">
+      <h2>Register Student</h2>
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="text" id="regRoll" placeholder="Roll Number" required>
+      <input type="text" id="regClass" placeholder="Class" required>
+      <input type="number" id="regFee" placeholder="Total Fee (₹)" required>
+      <button type="submit">Register</button>
+    </form>
+
+    <form class="card" onsubmit="event.preventDefault(); payFee();">
+      <h2>Pay Fee</h2>
+      <input type="text" id="payRoll" placeholder="Roll Number" required>
+      <input type="number" id="payAmount" placeholder="Payment Amount (₹)" required>
+      <button type="submit">Pay Now</button>
+    </form>
+
+    <form class="card" onsubmit="event.preventDefault(); searchStudent();">
+      <h2>Search Student</h2>
+      <input type="text" id="searchName" placeholder="Enter Student Name" required>
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="card1">
+      <h2>View Records</h2>
+      <button type="button" onclick="getAllStudents()">View All Records</button>
+      <div id="studentsTable" class="result-box"><h1>No records yet...</h1></div>
+    </div>
+  </main>
+
+  <footer>
+    <p id="fotter">© 2025 School Fee Management System</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

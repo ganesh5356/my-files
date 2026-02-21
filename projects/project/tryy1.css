@@ -1,0 +1,49 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+.text {
+font-size: 40px;
+padding-right:100px;
+float: right;
+  }
+
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+ /* Style for the image */
+.image-container {
+position: relative;
+top:30px;
+left:30px;
+}
+        
+.image-container img {
+display: inline-block;
+width: 300px; 
+height: 200px;
+transition: transform 0.2s;
+}
+        
+.image-container a {
+position:absolute;
+top: 0;
+left:0;
+width: 300px;
+height: 200px;
+display: flex;
+align-items: left;
+justify-content: left;
+background: rgba(0, 0, 0, 0.1);
+color: #1c87c9;
+opacity: 0.1;
+transition: opacity 0.1s;
+}
+
+/* Hover effect */
+.image-container:hover img {
+transform: scale(1.1);
+        
+.image-container:hover a {
+opacity: 0.1;
+}

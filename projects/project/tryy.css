@@ -1,0 +1,168 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+/* Full-width input fields */
+input[type=text]{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;		
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+ .text {
+    font-size: 22px;
+    padding-right:30px;
+    padding-top: 30px;
+    float: right;
+  }
+
+      .example {
+        
+        padding: 0px;
+	/*align:center;*/
+        display: block;
+        cursor: pointer;
+        overflow: hidden;
+      }
+      .content {	
+        opacity: 0;
+        font-size: 40px;
+        position: absolute;
+        top: 7px;
+	bottom:0;
+        left: auto;
+	right:auto;
+        color: #1c87c9;
+        background-color: rgba(0, 0, 0, 0.1);
+        width:750px ;
+        height:625px ;
+        -webkit-transition: all 400ms ease-out;
+        -moz-transition: all 400ms ease-out;
+        -o-transition: all 400ms ease-out;
+        -ms-transition: all 400ms ease-out;
+        transition: all 400ms ease-out;
+        text-align: center;
+      }
+      .example .content:hover {
+        opacity: 1;
+      }
+      .example .content .text {
+        height: 0;
+        opacity: 1;
+        transition-delay: 0s;
+        transition-duration: 0.4s;
+      }
+      .example .content:hover .text {
+        opacity: 1;
+        transform: translateY(auto);
+        -webkit-transform: translateY(auto);
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #e3s0e0;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 10%;
+  border-radius: 15%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+	

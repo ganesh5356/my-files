@@ -1,0 +1,92 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             SUMMATION,CODE,READONLY
+    2 00000000         
+    3 00000000 E3A0500A 
+                       start   mov              r5,#10
+    4 00000004 E3A00000        mov              r0,#0
+    5 00000008 E3A01002        mov              r1,#2
+    6 0000000C E0800001 
+                       loop    add              r0,r0,r1
+    7 00000010 E2811002        add              r1,r1,#2
+    8 00000014 E2555001        subs             r5,r5,#1
+    9 00000018 E3550000        cmp              r5,#0
+   10 0000001C 1AFFFFFA        bne              loop
+   11 00000020 E59F4004        ldr              r4,=result
+   12 00000024 E5840000        str              r0,[r4]
+   13 00000028 EAFFFFFE 
+                       xss     b                xss
+   14 0000002C 00000000        area             data2,data,readwrite
+   15 00000000 00000000 
+                       result  dcd              0x0
+   16 00000004                 end
+Command Line: --debug --xref --apcs=interwork --depend=evennumbers.d -oevennumb
+ers.o -IC:\Keil\ARM\RV31\Inc -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\Inc\Phil
+ips --predefine="__EVAL SETA 1" --list=evennumbers.lst evennumbers.asm
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+SUMMATION 00000000
+
+Symbol: SUMMATION
+   Definitions
+      At line 1 in file evennumbers.asm
+   Uses
+      None
+Comment: SUMMATION unused
+loop 0000000C
+
+Symbol: loop
+   Definitions
+      At line 6 in file evennumbers.asm
+   Uses
+      At line 10 in file evennumbers.asm
+Comment: loop used once
+start 00000000
+
+Symbol: start
+   Definitions
+      At line 3 in file evennumbers.asm
+   Uses
+      None
+Comment: start unused
+xss 00000028
+
+Symbol: xss
+   Definitions
+      At line 13 in file evennumbers.asm
+   Uses
+      At line 13 in file evennumbers.asm
+Comment: xss used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+data2 00000000
+
+Symbol: data2
+   Definitions
+      At line 14 in file evennumbers.asm
+   Uses
+      None
+Comment: data2 unused
+result 00000000
+
+Symbol: result
+   Definitions
+      At line 15 in file evennumbers.asm
+   Uses
+      At line 11 in file evennumbers.asm
+Comment: result used once
+2 symbols
+339 symbols in table

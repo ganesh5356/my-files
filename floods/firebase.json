@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "floods_disaster_management",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

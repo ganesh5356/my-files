@@ -1,0 +1,10 @@
+html{
+    overflow-x: hidden;
+}
+body{
+    overflow: auto;
+}
+A{
+    overflow: hidden;
+    background-color: aqua;
+}

@@ -1,0 +1,1 @@
+evennumbers.o: evennumbers.asm

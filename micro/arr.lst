@@ -1,0 +1,108 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 area             addition,code,readonly
+    2 00000000         
+    3 00000000 E3A05003        mov              r5,#3
+    4 00000004 E3A00000        mov              r0,#0
+    5 00000008 E59F1030        ldr              r1,=value1
+    6 0000000C E4912002 
+                       loop    ldr              r2,[r1],#2
+    7 00000010 E59F301C        ldr              r3,mask
+    8 00000014 E0022003        AND              r2,r2,r3
+    9 00000018 E0800002        add              r0,r0,r2
+   10 0000001C E2555001        subs             r5,r5,#1
+   11 00000020 E3550000        cmp              r5,#0
+   12 00000024 1AFFFFF8        bne              loop
+   13 00000028 E59F4014        ldr              r4,=result
+   14 0000002C E5840000        str              r0,[r4]
+   15 00000030 EAFFFFFE 
+                       xss     b                xss
+   16 00000034 0000FFFF 
+                       mask    dcd              0x0000ffff
+   17 00000038 11 11 22 
+              22 44 44 value1  dcw              0x1111,0x2222,0x4444 ;Array of 
+                                                            16bit;Numbers(n=3);
+                                                            
+   18 0000003E 00 00 00000000 
+              00000000         area             data2,data,readwrite
+   19 00000000 00000000 
+                       result  dcd              0x0
+   20 00000004                 end
+Command Line: --debug --xref --apcs=interwork --depend=arr.d -oarr.o -IC:\Keil\
+ARM\RV31\Inc -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\Inc\Philips --predefine=
+"__EVAL SETA 1" --list=arr.lst arr.asm
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+addition 00000000
+
+Symbol: addition
+   Definitions
+      At line 1 in file arr.asm
+   Uses
+      None
+Comment: addition unused
+loop 0000000C
+
+Symbol: loop
+   Definitions
+      At line 6 in file arr.asm
+   Uses
+      At line 12 in file arr.asm
+Comment: loop used once
+mask 00000034
+
+Symbol: mask
+   Definitions
+      At line 16 in file arr.asm
+   Uses
+      At line 7 in file arr.asm
+Comment: mask used once
+value1 00000038
+
+Symbol: value1
+   Definitions
+      At line 17 in file arr.asm
+   Uses
+      At line 5 in file arr.asm
+Comment: value1 used once
+xss 00000030
+
+Symbol: xss
+   Definitions
+      At line 15 in file arr.asm
+   Uses
+      At line 15 in file arr.asm
+Comment: xss used once
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+data2 00000000
+
+Symbol: data2
+   Definitions
+      At line 18 in file arr.asm
+   Uses
+      None
+Comment: data2 unused
+result 00000000
+
+Symbol: result
+   Definitions
+      At line 19 in file arr.asm
+   Uses
+      At line 13 in file arr.asm
+Comment: result used once
+2 symbols
+340 symbols in table

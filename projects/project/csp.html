@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>	
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="tryy.css">
+</head>
+<body bgcolor=#73A2AC>
+
+<div class="example">
+<img src="eee.avif" width=750px height=625px>
+<div class="text">
+<h3><q>This website will show you the companies <br> and their detais of their companies <br> and where you can select a company.</q></h3>
+<br>
+<h4><q>◀⬅ Click on 'NEXT' button to continue.</q></h4>
+</div>
+<div class="content">
+<h1>WELCOME</h1>
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto">NEXT</button>
+</div>
+</div>
+
+<div id="id01" class="modal">
+  
+<form class="modal-content animate" method="post">
+    
+<div class="imgcontainer">
+      
+<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      
+<img src="use.jpg" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="age"><b>Age</b></label>
+      <input type="text" placeholder="Enter Age" name="Age" oninput="this.value = this.value.replace(/[^0-9]/g, '');"required>
+      
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="Email" required>
+	
+      <label for="mnumber"><b>Mobile Number</b></label>
+      <input type="text" placeholder="Enter Mobile Number" name="Mobile Number" pattern="\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+	
+      <label for="branch"><b>Branch</b></label>
+      <input type="text" placeholder="Enter Branch" name="Branch" required>
+
+      <label for="iname"><b>Institution Name</b></label>
+      <input type="text" placeholder="Enter Institution Name" name="Institution Name" required>
+	  
+	 <label for="company"><b>Select a company▶</b>
+    <select id="optionSelect" style="width:200px;">
+        <option value="default">Option</option>
+        <option value="path1">WIPRO.</option>
+        <option value="path2">L & T.</option>
+        <option value="path3">ASIAN PAINTS.</option>
+		<option value="path4">INFOSYS.</option>
+		<option value="path5">TATA MOTORS.</option>
+		<option value="path6">JSW STEELS.</option>
+		<option value="path7">SIGMA AVIT.</option>
+		<option value="path8">BAJAJ AUTO PVT LTD.</option>
+		<option value="path9">TOYOTA.</option>
+		<option value="path10">TATA STEELS.</option></label>
+    </select>
+	
+	
+<button type="reset"><b><u>RESET</b></u>
+    <button id="pathButton" style="display: none;"><b><u>SUBMIT</b></u></button>
+	
+ <script>
+        const optionSelect = document.getElementById('optionSelect');
+        const pathButton = document.getElementById('pathButton');
+
+        // Add a click event listener to the path button
+        pathButton.addEventListener('click', function() {
+            const selectedOption = optionSelect.value;
+
+            // Define the paths you want to link to
+            let path;
+
+            switch (selectedOption) {
+                case 'path1':
+                    path = "wipro.html"; 
+                    break;
+
+					
+                case 'path2':
+                    path = "l&t.html"; 
+                    break;
+					
+                case 'path3':
+                    path = "asian.html"; 
+                    break;
+					
+				case 'path4':
+                    path = "infosys.html"; 
+                    break;
+					
+				case 'path5':
+                    path = "tata.html"; 
+                    break;
+					
+				case 'path6':
+                    path = "jsw.html"; 
+                    break;
+					
+				case 'path7':
+                    path = "sigma.html"; 
+                    break;
+					
+				case 'path8':
+                    path = "bajaj.html"; 
+                    break;
+					
+				case 'path9':
+                    path = "toyato.html"; 
+                    break;
+					
+				case 'path10':
+                    path = "tatas.html"; 
+					break;
+                default:
+                    alert('Please select a valid path.');
+                    return;
+            }
+
+            // Redirect to the selected path
+            window.location.href = path;
+        });
+
+        // Add a change event listener to the select element
+        optionSelect.addEventListener('change', function() {
+            const selectedOption = optionSelect.value;
+
+            // Show the path button when a valid option is selected
+            if (selectedOption !== 'default') {
+                pathButton.style.display = 'block';
+            } else {
+                pathButton.style.display = 'none'; // Hide the button for the default option
+            }
+        });
+    </script>
+
+</div>
+
+    <div class="container" style="background-color:#F1F1F1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+    
+    </div>
+  </form>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+</body>
+</html>

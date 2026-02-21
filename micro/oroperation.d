@@ -1,0 +1,1 @@
+oroperation.o: oroperation.asm

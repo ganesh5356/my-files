@@ -1,0 +1,16 @@
+CREATE DATABASE logindb;
+
+
+USE logindb;
+
+
+CREATE TABLE Signin (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Age INT NOT NULL,
+    Mobile_no VARCHAR(15) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL
+);
+
+
+SELECT * FROM Signin;
