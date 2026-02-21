@@ -1,0 +1,15 @@
+<?php
+$con =mysqli_connect('localhost','root',' ','logindb');
+
+if(isset($_POST['sub']))
+   {
+	$Name=$_POST['name'];
+	$Age=$_POST['age'];
+	$Mobile_no=$_POST['mobile'];
+	
+	$query ="INSERT INTO signin(Name,Age,Mobile_no)
+	values('$name','$age','$mobile')";
+	
+	$run =mysqli_query($con,$query);
+}
+  ?>
